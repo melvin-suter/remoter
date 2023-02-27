@@ -10,7 +10,7 @@ WORKDIR /usr/local/app
 # Add the source code to app
 COPY ./ /usr/local/app/
 # Install all the dependencies
-RUN npm install
+RUN npm install --include=dev
 # Generate the build of the application
 RUN npm run build
 
