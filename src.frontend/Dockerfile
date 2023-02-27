@@ -19,9 +19,10 @@ RUN npm run build
 ###############
 FROM nginx:1.23.3-alpine
 COPY --from=build /usr/local/app/dist/remoteng /usr/share/nginx/html
+COPY entrypoint.sh /entrypoint.sh
 
 # Expose port 80
 EXPOSE 80
 
 # When the container starts, replace the env.js with values from environment variables
-CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/env.template.js > /usr/share/nginx/html/assets/env.js && nginx -g 'daemon off;'"]
+ENTRYPOINT /entrypoint.sh
