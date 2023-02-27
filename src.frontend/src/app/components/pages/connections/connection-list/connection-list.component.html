@@ -1,0 +1,34 @@
+<h1>Connections</h1>
+
+<div class="search-wrapper">
+    <input (keydown)="inputChanged()" type="text" pInputText [(ngModel)]="searchText" placeholder="Search..."/>
+    <p-autoComplete (onUnselect)="runFilter()" (onSelect)="runFilter()" [(ngModel)]="selectedTags" [suggestions]="tags" placeholder="Search Tags..." (completeMethod)="search($event)" [multiple]="true">
+        <ng-template let-tag pTemplate="item">
+            <div><app-tag value="{{tag}}"></app-tag></div>
+        </ng-template>
+    </p-autoComplete>
+    <a  class="button" pButton routerLink="new">New</a>
+</div>
+
+<p-table [value]="connectionsFiltered" [tableStyle]="{'min-width': '50rem'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Hostname</th>
+            <th>Tags</th>
+            <th>Description</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-con>
+        <tr>
+            <td>{{con.id}}</td>
+            <td><a routerLink="/connections/{{ con.id }}">{{con.name}}</a></td>
+            <td>{{con.hostname}}</td>
+            <td>
+                <app-tag *ngFor="let tag of con.tags?.split(',')" value="{{tag}}"></app-tag>
+            </td>
+            <td>{{con.description ? con.description.substring(0,50) : ''}}</td>
+        </tr>
+    </ng-template>
+</p-table>

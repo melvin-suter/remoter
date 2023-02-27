@@ -1,0 +1,15 @@
+<h1>User Profile</h1>
+
+<div class="form">
+    <label>Username</label>
+    <input type="text" pInputText [(ngModel)]="loginData.username" />
+
+   
+    <label>Password</label>
+    <p-password readonly  [feedback]="false" [toggleMask]="true" [(ngModel)]="loginData.password" ></p-password>
+
+
+</div>
+<div class="buttons">
+    <button pButton (click)="save()">Save</button>
+</div>

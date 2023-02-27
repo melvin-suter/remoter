@@ -1,0 +1,102 @@
+<h1 class="h1-with-buttons">
+    <span>{{ connection.name }}</span>
+
+    <div class="buttons">
+        <a pButton routerLink="edit">Edit</a>
+        <button pButton class="p-button-info" (click)="copy()">Copy</button>
+        <button pButton class="p-button-danger" (click)="deleteConfirm()">Delete</button>
+    </div>
+</h1>
+
+<h2>Information</h2>
+
+<div class="p-datatable">
+    <div class="p-datatable-wrapper">
+        <table class="p-datatable-table" style="width: 100%;border-collapse: collapse;">
+            <thead class="p-datatable-thead">
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody class="p-datatable-tbody">
+                <tr>
+                    <td>Name</td>
+                    <td>{{ connection.name }}</td>
+                </tr>
+                <tr>
+                    <td>Hostname</td>
+                    <td>{{ connection.hostname }}</td>
+                </tr>
+                <tr>
+                    <td>Port</td>
+                    <td>{{ connection.port }}</td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>
+                        {{ connection.type == ConnectionType.rdp ? 'RDP' : '' }}
+                        {{ connection.type == ConnectionType.ssh ? 'SSH' : '' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Credential</td>
+                    <td>
+                        <div *ngIf="connection.credential">
+                            <a routerLink="/credentials/{{ connection.credential?.id }}">{{ connection.credential?.name + " - " + connection.credential?.username }}</a>
+                            <button pButton type="button" style="float: right;" class="p-button-info p-button-rounded p-button-outlined p-button-xsm" icon="pi pi-info" iconPos="left" (click)="op.toggle($event)"></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Tags</td>
+                    <td>
+                        <app-tag *ngFor="let tag of connection.tags?.split(',')" value="{{tag}}"></app-tag>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><pre>{{ connection.description }}</pre></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<p-overlayPanel #commandOpenSSHLinux [showCloseIcon]="true">
+    <ng-template pTemplate>
+        <div style="display: flex;">
+            <pre class="code"><code>{{ sshDownloadTextLinux }}</code></pre>
+            <app-copy-button value="{{ sshDownloadTextLinux }}"></app-copy-button>
+        </div>
+    </ng-template>
+</p-overlayPanel>
+
+
+<p-overlayPanel #commandOpenSSHWindows [showCloseIcon]="true">
+    <ng-template pTemplate>
+        <div style="display: flex;">
+            <pre><code>{{ sshDownloadTextWindows }}</code></pre>
+            <app-copy-button value="{{ sshDownloadTextWindows }}"></app-copy-button>
+        </div>
+    </ng-template>
+</p-overlayPanel>
+
+
+
+<p-overlayPanel #op>
+    <ng-template pTemplate>
+        <app-credential-info [credential]="connection.credential"></app-credential-info>
+    </ng-template>
+</p-overlayPanel>
+
+<h2>Actions</h2>
+
+<div class="buttons">
+    
+    <a *ngIf="connection.type == ConnectionType.rdp" pButton (click)="downloadWindowsRDPFile()" >Connect (.rdp)</a>
+    <a *ngIf="connection.type == ConnectionType.ssh && connection.credential?.privateKey" pButton (click)="downloadSSHKey()" >Download SSH Key</a>
+    <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="commandOpenSSHLinux.toggle($event)" >Connect (openssh - Linux)</a>
+    <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="commandOpenSSHWindows.toggle($event)" >Connect (openssh - Generic)</a>
+</div>

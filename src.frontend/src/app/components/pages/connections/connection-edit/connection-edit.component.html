@@ -1,0 +1,30 @@
+<h1>{{ title }}</h1>
+
+<div class="form">
+    <label>Name</label>
+    <input type="text" pInputText [(ngModel)]="connection.name" />
+
+    <label>Hostname</label>
+    <input type="text" pInputText [(ngModel)]="connection.hostname" />
+
+    <label>Port</label>
+    <input type="text" pInputText [(ngModel)]="connection.port" />
+
+    <label>Type</label>
+    <p-dropdown [options]="connectionTypes" [(ngModel)]="connection.type" optionLabel="name" optionValue="type"></p-dropdown>
+
+    <label>Credential</label>
+    <p-dropdown [options]="credentials" [(ngModel)]="connection.credentialID" optionLabel="name" optionValue="id" ></p-dropdown>
+
+    <label>Tags</label>
+    <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="tags" (completeMethod)="search($event)" [multiple]="true"></p-autoComplete>
+
+
+    <label>Description</label>
+    <textarea pInputTextarea [(ngModel)]="connection.description" ></textarea>
+
+</div>
+<div class="buttons">
+    <button pButton (click)="save()">Save</button>
+    <button style.display="{{id == 'new' ? 'none' : 'block'}}" pButton class="p-button-danger" (click)="deleteConfirm()">Delete</button>
+</div>
