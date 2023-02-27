@@ -19,6 +19,7 @@ RUN npm run build
 ###############
 FROM node:18-alpine
 COPY --from=build /usr/local/app/dist /usr/local/app
+COPY --from=build /usr/local/app/node_modules /usr/local/app
 
 # Expose port 80
 EXPOSE 5000
