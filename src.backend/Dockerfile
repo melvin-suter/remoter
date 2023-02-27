@@ -30,4 +30,4 @@ EXPOSE 5000
 
 WORKDIR /usr/local/app
 # When the container starts, replace the env.js with values from environment variables
-CMD ["/bin/sh",  "-c",  "node index.js"]
+CMD ["/bin/sh",  "-c",  "npm i && node index.js"]
