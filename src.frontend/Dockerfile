@@ -20,6 +20,7 @@ RUN npm run build
 FROM nginx:1.23.3-alpine
 COPY --from=build /usr/local/app/dist/remoteng /usr/share/nginx/html
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 # Expose port 80
 EXPOSE 80
