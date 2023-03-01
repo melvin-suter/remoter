@@ -9,6 +9,7 @@ import { BackendService } from 'src/app/services/backend.service';
 import * as FileSaver from 'file-saver';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { HelperService } from 'src/app/services/helper.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-connection-view',
@@ -19,7 +20,6 @@ export class ConnectionViewComponent implements OnInit {
 
   connection:ConnectionModel = {name:'', hostname: '', type: ConnectionType.rdp};
   ConnectionType = ConnectionType;
-  downloadAPI = "http://localhost:5000/";
   sshDownloadTextLinux = "";
   sshDownloadTextWindows = "";
 
@@ -36,7 +36,6 @@ export class ConnectionViewComponent implements OnInit {
       } else {
         backend.getConnection(params["id"]).subscribe((cred) => {
           this.connection = cred;
-          this.downloadAPI = "http://localhost:5000/api/connections/" + this.connection.id + "/" + ConnectionType[this.connection.type].toLowerCase();
 
 
 

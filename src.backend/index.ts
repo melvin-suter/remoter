@@ -88,17 +88,6 @@ app.post('/api/token/sign', jsonParser,(req, res) => {
 
 
 
-app.get('/api/version',  (req:Request, res: Response) => {
-  let tokenData = jwt.decode(<string>req.headers.authorization?.replace('Bearer ',''));
-  res.json({'version': 'v1' });
-});
-
-
-
-
-
-
-
 app.put('/api/credentials',jsonParser, (request: Request, response: Response) => {
   let id = dbService.createCredential(request.body);
   BasicHelper.returnData(request, response, { ...request.body, ...{id: id} });

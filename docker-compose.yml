@@ -5,34 +5,22 @@ volumes:
 
 services:
   backend:
-    image: suterdev/remoter.backend:0.1.4
+    image: suterdev/remoter.backend:0.1.5
     restart: always
     environment:
       APP_KEY: YOURKEYHERE
-      GF_ROOT_URL: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
-      GF_SERVE_FROM_SUB_PATH: "true"
+      DATABASE_PATH: /data/data.db
     volumes:
-      - grafana-data:/var/lib/grafana
-  mongo-express:
-    image: mongo-express
+      - remote-data:/data
+  
+  frontend:
+    image: suterdev/remoter.frontend:0.1.5
     restart: always
-    ports:
-      - 9080:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongodb:27017/
-  mongodb:
-    image: mongo
-    restart: always
+      API_URL: /api
     volumes:
-      - mongodb-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-      
-      
-      
+      - remote-data:/data
+  
       
            
       
