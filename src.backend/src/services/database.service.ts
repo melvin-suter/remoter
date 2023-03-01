@@ -57,6 +57,11 @@ export class DatabaseService {
       this.runMigration("2023-02-26_add_tags",()=>{
         this.db.exec("ALTER TABLE connections ADD tags TEXT;");
       });
+
+      // migration add tags to credentials
+      this.runMigration("2023-03-01_add_tags",()=>{
+        this.db.exec("ALTER TABLE credentials ADD tags TEXT;");
+      });
       
     }
     
@@ -251,9 +256,19 @@ export class DatabaseService {
     }
 
 
-    getTags():string[]{
+    getConnectionTags():string[]{
       let tags:string[] = [];
       let query = this.db.prepare("SELECT tags FROM connections");
+      query.all().forEach((row)=>{
+        tags.push(row["tags"]);
+      });
+      return tags;
+    }
+
+
+    getCredentialTags():string[]{
+      let tags:string[] = [];
+      let query = this.db.prepare("SELECT tags FROM credentials");
       query.all().forEach((row)=>{
         tags.push(row["tags"]);
       });

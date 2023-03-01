@@ -66,8 +66,13 @@ export class BackendService {
 
 
 
-  getTags(){
-    return this.http.get<string[]>(environment.apiUrl + '/tags').pipe(map((a:any) => a.data));
+  getConnectionTags(){
+    return this.http.get<string[]>(environment.apiUrl + '/tags/connections').pipe(map((a:any) => a.data));
+  }
+
+
+  getCredentialTags(){
+    return this.http.get<string[]>(environment.apiUrl + '/tags/credentials').pipe(map((a:any) => a.data));
   }
 
 

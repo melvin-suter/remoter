@@ -14,7 +14,7 @@
     <p-dropdown [options]="connectionTypes" [(ngModel)]="connection.type" optionLabel="name" optionValue="type"></p-dropdown>
 
     <label>Credential</label>
-    <p-dropdown [options]="credentials" [(ngModel)]="connection.credentialID" optionLabel="name" optionValue="id" ></p-dropdown>
+    <p-dropdown [options]="credentials" [(ngModel)]="connection.credentialID" optionLabel="displayLabel" optionValue="id" ></p-dropdown>
 
     <label>Tags</label>
     <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="tags" (completeMethod)="search($event)" [multiple]="true"></p-autoComplete>

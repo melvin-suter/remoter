@@ -6,4 +6,5 @@ export interface CredentialModel {
     password?:string;
     privateKey?:string;
     description?:string;
+    tags?:string;
 }

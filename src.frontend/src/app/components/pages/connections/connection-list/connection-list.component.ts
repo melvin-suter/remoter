@@ -99,7 +99,7 @@ export class ConnectionListComponent implements OnInit {
   search(searchEvent:any) {
     let newTagArr:string[] = [];
 
-    let tagList = this.backend.getTags().subscribe( (tags:string[]) => {
+    let tagList = this.backend.getConnectionTags().subscribe( (tags:string[]) => {
       tags.forEach( (item) => {
         if(item != null && item != undefined){
           item.split(",").forEach((tag) => {

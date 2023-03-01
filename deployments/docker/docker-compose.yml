@@ -5,7 +5,7 @@ volumes:
     
 services:
   backend:
-    image: suterdev/remoter.backend:0.2.0
+    image: suterdev/remoter.backend:0.2.3
     restart: always
     environment:
       APP_KEY: YOURKEYHERE
@@ -14,7 +14,7 @@ services:
       - remoter-data:/data
   
   frontend:
-    image: suterdev/remoter.frontend:0.2.1
+    image: suterdev/remoter.frontend:0.2.3
     restart: always
     environment:
       API_URL: /api

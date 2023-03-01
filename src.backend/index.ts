@@ -122,9 +122,14 @@ app.get('/api/credentials/:id',jsonParser, (request: Request, response: Response
 });
 
 
-app.get('/api/tags',jsonParser, (request: Request, response: Response) => {
+app.get('/api/tags/connections',jsonParser, (request: Request, response: Response) => {
   BasicHelper.returnData(request, response, 
-    dbService.getTags()
+    dbService.getConnectionTags()
+  );
+});
+app.get('/api/tags/credentials',jsonParser, (request: Request, response: Response) => {
+  BasicHelper.returnData(request, response, 
+    dbService.getCredentialTags()
   );
 });
 

@@ -15,6 +15,9 @@ export class CredentialViewComponent implements OnInit {
   id:any = "new";
   title:string = "New";
 
+  selectedTags:any =[];
+  tags:string[] = [];
+
   constructor(private route:ActivatedRoute, private backend:BackendService, private router:Router, private ref:ChangeDetectorRef, private confirmationService: ConfirmationService) {
     this.route.params.subscribe( (params) => {
       this.id == params["id"];
@@ -25,9 +28,30 @@ export class CredentialViewComponent implements OnInit {
         backend.getCredential(params["id"]).subscribe((cred) => {
           this.credential = cred;
           this.id = cred.id;
+          this.selectedTags = this.credential.tags?.split(',');
           this.title = cred.name;
         });
       }
+    });
+  }
+
+
+  search(searchEvent:any) {
+    let newTagArr:string[] = [];
+
+    let tagList = this.backend.getCredentialTags().subscribe( (tags:string[]) => {
+      tags.forEach( (item) => {
+        if(item != null && item != undefined){
+          item.split(",").forEach((tag) => {
+            if(!newTagArr.includes(tag) && tag.toLowerCase().includes(searchEvent.query.toLowerCase())){
+              newTagArr.push(tag);
+            }
+          });
+        }
+      });
+      newTagArr.push(searchEvent.query);
+
+      this.tags = newTagArr;
     });
   }
 
@@ -36,6 +60,7 @@ export class CredentialViewComponent implements OnInit {
   }
 
   save(){
+    this.credential.tags = this.selectedTags.join(",");
     if(this.id == "new"){
       this.backend.putCredential(this.credential);
     } else {
