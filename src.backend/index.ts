@@ -14,12 +14,15 @@ import jwt from 'jsonwebtoken';
 import { expressjwt } from 'express-jwt';
 
 dotenv.config();
-let dbService = new DatabaseService()
-let authHelper = new AuthHelper(dbService);
 
 const app: Express = express();
 const port = process.env.SERVER_PORT;
+const databasePath:string = process.env.DATABASE_PATH ? process.env.DATABASE_PATH : './data.db';
 const appSecret = <string>process.env.APP_KEY;
+
+let dbService = new DatabaseService(databasePath);
+let authHelper = new AuthHelper(dbService);
+
 
 app.use(session({
   resave: false,

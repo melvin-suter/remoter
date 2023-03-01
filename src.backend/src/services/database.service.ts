@@ -9,8 +9,8 @@ export class DatabaseService {
 
     private db:Database;
 
-    constructor(){
-        this.db = new DatabaseConstructor('./data.db');
+    constructor(path:string){
+        this.db = new DatabaseConstructor(path);
         
         this.migrate();
     }
