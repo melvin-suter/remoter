@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: remoter-config
+data:
+  APP_KEY: "YOURAPPKEYHERE"
+  DATABASE_PATH: "/data/data.db"
+  API_URL: "/api"

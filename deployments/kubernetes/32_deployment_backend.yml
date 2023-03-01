@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+    stack: remoter
+spec:
+  selector:
+    matchLabels:
+      app: backend
+      stack: remoter
+  template:
+    metadata:
+      labels:
+        app: backend
+        stack: remoter
+    spec:
+      volumes:
+      - name: pvc-remoter
+        persistentVolumeClaim:
+          claimName: pvc-remoter
+      containers:
+        - imagePullPolicy: Always
+          name: container-0
+          image: suterdev/remoter.backend:0.2.0
+          envFrom:
+          - configMapRef:
+              name: remoter-config
+          ports:
+          - name: http
+            protocol: TCP
+            containerPort: 5000
+          volumeMounts:
+          - mountPath: /data
+            name: pvc-remoter
+      restartPolicy: Always
+  replicas: 1
