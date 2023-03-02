@@ -40,7 +40,7 @@ export class ConnectionViewComponent implements OnInit {
 
 
           if(this.connection.credential?.password && this.connection.credential.password.length > 0){
-            this.sshDownloadTextLinux = "sshpass -p'" + this.connection.credential.password + "' ";
+            this.sshDownloadTextLinux = "sshpass -p\"$(echo '" + btoa(this.connection.credential.password) + "' | base64 -d)\" ";
           }
 
           this.sshDownloadTextLinux += "ssh "
