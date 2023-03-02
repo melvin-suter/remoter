@@ -16,8 +16,12 @@ export class TagComponent implements OnInit {
 
 
 
-  getColor(){
+  getColor():string{
     return HelperService.toHue(this.value);
+   }
+
+   getForegroundColor():string {
+    return HelperService.foregroundFromHue(this.getColor());
    }
  
 

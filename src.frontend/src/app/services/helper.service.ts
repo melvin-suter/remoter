@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as Color from 'color';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class HelperService {
     return x + min;
   }
 
-  static toHue(value:string, opts?:{hue:number[], sat:number[], lit:number[]}) {
+  static toHue(value:string, opts?:{hue:number[], sat:number[], lit:number[]}):string {
     var h, s, l;
     let newOpts:any = opts ? opts : {};
     newOpts.hue = newOpts?.hue || [0, 360];
@@ -24,7 +25,7 @@ export class HelperService {
 
 
     var hash = 0;
-    if (value.length === 0) return hash;
+    if (value.length === 0) return '#ffffff';
     for (var i = 0; i < value.length; i++) {
         hash = value.charCodeAt(i) + ((hash << 5) - hash);
         hash = hash & hash;
@@ -35,5 +36,10 @@ export class HelperService {
     l = this.hueRange(hash, newOpts?.lit[0], newOpts?.lit[1]);
 
     return `hsl(${h}, ${s}%, ${l}%)`;
+  }
+
+  static foregroundFromHue(value:string){
+    let color = new Color(value);
+    return color.isDark() ? '#ffffff' : '#000000';
   }
 }

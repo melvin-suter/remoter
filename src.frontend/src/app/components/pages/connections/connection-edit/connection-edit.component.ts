@@ -41,7 +41,7 @@ export class ConnectionEditComponent implements OnInit {
     this.route.params.subscribe( (params) => {
       this.id == params["id"];
 
-      if(params['id'] == "new"){
+      if(params['id'] == "new" || params['id'] == undefined){
         this.connection = {name:'',hostname: '', type: ConnectionType.rdp};
       } else {
         backend.getConnection(params["id"]).subscribe((con) => {
