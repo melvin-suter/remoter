@@ -3,10 +3,10 @@
         <h1>Login</h1>
 
         <label>Username</label>
-        <input type="text" class="{{ validState ? '': 'ng-invalid'}}" pInputText [(ngModel)]="loginData.username" />
+        <input type="text" (keyup.enter)="login()" class="{{ validState ? '': 'ng-invalid'}}" pInputText [(ngModel)]="loginData.username" />
     
         <label>Password</label>
-        <p-password readonly  [feedback]="false" [toggleMask]="true" class="{{ validState ? '': 'ng-invalid'}}" [(ngModel)]="loginData.password" ></p-password>
+        <p-password readonly (keyup.enter)="login()" [feedback]="false" [toggleMask]="true" class="{{ validState ? '': 'ng-invalid'}}" [(ngModel)]="loginData.password" ></p-password>
             
     <button pButton (click)="login()">Login</button>
 
