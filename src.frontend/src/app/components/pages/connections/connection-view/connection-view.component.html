@@ -64,25 +64,35 @@
 </div>
 
 
-<p-overlayPanel #commandOpenSSHLinux [showCloseIcon]="true">
+<p-overlayPanel #overlaySSHLinux [showCloseIcon]="true">
     <ng-template pTemplate>
         <div style="display: flex;">
-            <pre class="code"><code>{{ sshDownloadTextLinux }}</code></pre>
-            <app-copy-button value="{{ sshDownloadTextLinux }}"></app-copy-button>
+            <pre class="code"><code>{{ commandSSHLinux.view }}</code></pre>
+            <app-copy-button value="{{ commandSSHLinux.copy }}"></app-copy-button>
         </div>
     </ng-template>
 </p-overlayPanel>
 
 
-<p-overlayPanel #commandOpenSSHWindows [showCloseIcon]="true">
+<p-overlayPanel #overlaySSHWindows [showCloseIcon]="true">
     <ng-template pTemplate>
         <div style="display: flex;">
-            <pre><code>{{ sshDownloadTextWindows }}</code></pre>
-            <app-copy-button value="{{ sshDownloadTextWindows }}"></app-copy-button>
+            <pre class="code"><code>{{ commandSSHWindows.view }}</code></pre>
+            <app-copy-button value="{{ commandSSHWindows.copy }}"></app-copy-button>
         </div>
     </ng-template>
 </p-overlayPanel>
 
+
+
+<p-overlayPanel #overlayGuacamole [showCloseIcon]="true">
+    <ng-template pTemplate>
+        <div style="display: flex;">
+            <pre class="code"><code>{{ commandGuacamole.view }}</code></pre>
+            <app-copy-button value="{{ commandGuacamole.copy }}"></app-copy-button>
+        </div>
+    </ng-template>
+</p-overlayPanel>
 
 
 <p-overlayPanel #op>
@@ -95,8 +105,9 @@
 
 <div class="buttons">
     
-    <a *ngIf="connection.type == ConnectionType.rdp" pButton (click)="downloadWindowsRDPFile()" >Connect (.rdp)</a>
+    <a *ngIf="connection.type == ConnectionType.rdp" pButton (click)="downloadWindowsRDPFile()" >Download (.rdp)</a>
     <a *ngIf="connection.type == ConnectionType.ssh && connection.credential?.privateKey" pButton (click)="downloadSSHKey()" >Download SSH Key</a>
-    <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="commandOpenSSHLinux.toggle($event)" >Connect (openssh - Linux)</a>
-    <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="commandOpenSSHWindows.toggle($event)" >Connect (openssh - Generic)</a>
+    <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="overlaySSHLinux.toggle($event)" >Get Command (openssh - Linux)</a>
+    <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="overlaySSHWindows.toggle($event)" >Get Command (openssh - Generic)</a>
+    <a pButton (click)="overlayGuacamole.toggle($event)" >Get URI (Guacamole)</a>
 </div>

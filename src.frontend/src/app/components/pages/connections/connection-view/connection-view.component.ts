@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { HelperService } from 'src/app/services/helper.service';
 import { environment } from 'src/environments/environment';
 
+
 @Component({
   selector: 'app-connection-view',
   templateUrl: './connection-view.component.html',
@@ -20,8 +21,10 @@ export class ConnectionViewComponent implements OnInit {
 
   connection:ConnectionModel = {name:'', hostname: '', type: ConnectionType.rdp};
   ConnectionType = ConnectionType;
-  sshDownloadTextLinux = "";
-  sshDownloadTextWindows = "";
+
+  commandSSHLinux = {view:"",copy:""};
+  commandSSHWindows = {view:"",copy:""};
+  commandGuacamole = {view:"",copy:""};
 
   constructor(
     private http:HttpClient, private route:ActivatedRoute, 
@@ -38,32 +41,53 @@ export class ConnectionViewComponent implements OnInit {
           this.connection = cred;
 
 
-
-          if(this.connection.credential?.password && this.connection.credential.password.length > 0){
-            this.sshDownloadTextLinux = "sshpass -p\"$(echo '" + btoa(this.connection.credential.password) + "' | base64 -d)\" ";
+          this.commandGuacamole.view = ConnectionType[this.connection.type] + "://";
+          this.commandGuacamole.view += this.connection.credential?.username && this.connection.credential?.username.length > 0 ? encodeURI(this.connection.credential.username) : '';
+          this.commandGuacamole.view += this.connection.credential?.password && this.connection.credential?.password.length > 0 ? ":" + "*".repeat(this.connection.credential.password.length) : '';
+          this.commandGuacamole.view += (this.connection.credential?.password && this.connection.credential?.password.length > 0) || (this.connection.credential?.username && this.connection.credential?.username.length > 0 ) ? "@" : '';
+          this.commandGuacamole.view += this.connection.hostname;
+          this.commandGuacamole.view += this.connection.port && this.connection.port.length > 0 ? ":" + this.connection.port : '';
+          
+          this.commandGuacamole.copy = ConnectionType[this.connection.type] + "://";
+          this.commandGuacamole.copy += this.connection.credential?.username && this.connection.credential?.username.length > 0 ? encodeURI(this.connection.credential.username) : '';
+          this.commandGuacamole.copy += this.connection.credential?.password && this.connection.credential?.password.length > 0 ? ":" + encodeURI(this.connection.credential.password) : '';
+          this.commandGuacamole.copy += (this.connection.credential?.password && this.connection.credential?.password.length > 0) || (this.connection.credential?.username && this.connection.credential?.username.length > 0 ) ? "@" : '';
+          this.commandGuacamole.copy += this.connection.hostname;
+          this.commandGuacamole.copy += this.connection.port && this.connection.port.length > 0 ? ":" + this.connection.port : '';
+          
+          if(this.connection.type == ConnectionType.rdp) {
+            this.commandGuacamole.view += "/?security=any&ignore-cert=true";
+            this.commandGuacamole.copy += "/?security=any&ignore-cert=true";
           }
 
-          this.sshDownloadTextLinux += "ssh "
-          this.sshDownloadTextWindows += "ssh "
+
+          if(this.connection.credential?.password && this.connection.credential.password.length > 0){
+            this.commandSSHLinux.copy = "sshpass -p\"$(echo '" + btoa(this.connection.credential.password) + "' | base64 -d)\" ";
+          }
+
+          this.commandSSHLinux.copy += "ssh "
+          this.commandSSHWindows.copy += "ssh "
 
           if(this.connection.credential?.username && this.connection.credential.username.length > 0){
-            this.sshDownloadTextLinux += "-l" + this.connection.credential.username + " ";
-            this.sshDownloadTextWindows += "-l" + this.connection.credential.username + " ";
+            this.commandSSHLinux.copy += "-l" + this.connection.credential.username + " ";
+            this.commandSSHWindows.copy += "-l" + this.connection.credential.username + " ";
           }
 
           if(this.connection.credential?.privateKey && this.connection.credential.privateKey.length > 0){
-            this.sshDownloadTextLinux += "-i '~/.ssh/"+this.connection.credential.name+"' "
-            this.sshDownloadTextWindows += "-i '~/.ssh/"+this.connection.credential.name+"' "
+            this.commandSSHLinux.copy += "-i '~/.ssh/"+this.connection.credential.name+"' "
+            this.commandSSHWindows.copy += "-i '~/.ssh/"+this.connection.credential.name+"' "
           }
 
           if(this.connection.port && this.connection.port.length > 0){
-            this.sshDownloadTextLinux += "-p" + this.connection.port + " ";
-            this.sshDownloadTextWindows += "-p" + this.connection.port + " ";
+            this.commandSSHLinux.copy += "-p" + this.connection.port + " ";
+            this.commandSSHWindows.copy += "-p" + this.connection.port + " ";
           }
 
-          this.sshDownloadTextLinux += this.connection.hostname + " ; history -d $(history 1)";
-          this.sshDownloadTextWindows += this.connection.hostname + "";
+          this.commandSSHLinux.copy += this.connection.hostname + " ; history -d $(history 1)";
+          this.commandSSHWindows.copy += this.connection.hostname + "";
 
+          this.commandSSHLinux.view = this.commandSSHLinux.copy;
+          this.commandSSHWindows.view = this.commandSSHWindows.copy;
 
         });
       }
@@ -135,5 +159,6 @@ export class ConnectionViewComponent implements OnInit {
    
     });
   }
+
 
 }

@@ -14,7 +14,7 @@ services:
       - remoter-data:/data
   
   frontend:
-    image: suterdev/remoter.frontend:0.2.5
+    image: suterdev/remoter.frontend:0.2.6
     restart: always
     environment:
       API_URL: /api

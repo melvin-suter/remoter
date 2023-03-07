@@ -19,7 +19,7 @@ spec:
       containers:
         - imagePullPolicy: Always
           name: container-0
-          image: suterdev/remoter.frontend:0.2.5
+          image: suterdev/remoter.frontend:0.2.6
           envFrom:
           - configMapRef:
               name: remoter-config
