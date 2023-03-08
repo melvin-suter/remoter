@@ -18,7 +18,7 @@ export class GuacamoleService {
       // Check if connection exists
       let result = await this.db.query(
           'SELECT * FROM guacamole_connection WHERE connection_name = $1',
-          {params: [conID]});
+          {params: [<string><unknown>conID]});
       let rows:any[] | undefined = result.rows;
 
       // Set ID or create new connection
@@ -36,7 +36,7 @@ export class GuacamoleService {
       // Check if connection exists
       let result = await this.db.query(
           'SELECT * FROM guacamole_connection WHERE connection_name = $1',
-          {params: [connection.id]});
+          {params: [<string><unknown>connection.id]});
       let rows:any[] | undefined = result.rows;
 
       // Set ID or create new connection
@@ -77,7 +77,7 @@ export class GuacamoleService {
       // Check if entry exists
       let result = await this.db.query(
         'SELECT * FROM guacamole_connection_parameter WHERE connection_id = $1 AND parameter_name = $2',
-        {params: [conID, key]});
+        {params: [<string><unknown>conID, key]});
       let rows:any[] | undefined = result.rows;
       
       if(rows && rows!.length > 0){ // update
