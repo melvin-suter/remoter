@@ -17,15 +17,15 @@ export class GuacamoleService {
 
       // Check if connection exists
       let result = await this.db.query(
-          'SELECT * FROM guacamole_connection WHERE connection_name == $1',
+          'SELECT * FROM guacamole_connection WHERE connection_name = $1',
           {params: [conID]});
       let rows:any[] | undefined = result.rows;
 
       // Set ID or create new connection
       if(rows && rows!.length > 0){
         connectionID = rows[0]["connection_id"];
-        await this.db.query("DELETE FROM guacamole_connection_parameter WHERE connection_id == $1", {params:[connectionID]});
-        await this.db.query("DELETE FROM guacamole_connection WHERE connection_id == $1", {params:[connectionID]});
+        await this.db.query("DELETE FROM guacamole_connection_parameter WHERE connection_id = $1", {params:[connectionID]});
+        await this.db.query("DELETE FROM guacamole_connection WHERE connection_id = $1", {params:[connectionID]});
       }
     }
 
@@ -35,7 +35,7 @@ export class GuacamoleService {
 
       // Check if connection exists
       let result = await this.db.query(
-          'SELECT * FROM guacamole_connection WHERE connection_name == $1',
+          'SELECT * FROM guacamole_connection WHERE connection_name = $1',
           {params: [connection.id]});
       let rows:any[] | undefined = result.rows;
 
@@ -76,7 +76,7 @@ export class GuacamoleService {
     async setParameter(conID:number, key:string, value:string){
       // Check if entry exists
       let result = await this.db.query(
-        'SELECT * FROM guacamole_connection_parameter WHERE connection_id == $1 AND parameter_name = $2',
+        'SELECT * FROM guacamole_connection_parameter WHERE connection_id = $1 AND parameter_name = $2',
         {params: [conID, key]});
       let rows:any[] | undefined = result.rows;
       
