@@ -21,7 +21,7 @@ const port = process.env.SERVER_PORT;
 const databasePath:string = process.env.DATABASE_PATH ? process.env.DATABASE_PATH : './data.db';
 const appSecret = <string>process.env.APP_KEY;
 const postgresConfig = {
-  host: <string>process.env.POSTGRES_HOST,
+  host: <string>process.env.POSTGRES_HOSTNAME,
   user: <string>process.env.POSTGRES_USER,
   password: <string>process.env.POSTGRES_PASSWORD,
   database: <string>process.env.POSTGRES_DATABASE,
