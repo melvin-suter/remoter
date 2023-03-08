@@ -12,6 +12,7 @@ import { CredentialModel } from './src/models/credential.model';
 import { connect } from 'http2';
 import jwt from 'jsonwebtoken';
 import { expressjwt } from 'express-jwt';
+import { GuacamoleService } from './src/services/guacamole.service';
 
 dotenv.config();
 
@@ -19,8 +20,17 @@ const app: Express = express();
 const port = process.env.SERVER_PORT;
 const databasePath:string = process.env.DATABASE_PATH ? process.env.DATABASE_PATH : './data.db';
 const appSecret = <string>process.env.APP_KEY;
+const postgresConfig = {
+  host: <string>process.env.POSTGRES_HOST,
+  user: <string>process.env.POSTGRES_USER,
+  password: <string>process.env.POSTGRES_PASSWORD,
+  database: <string>process.env.POSTGRES_DATABASE,
+  port: <number>(process.env.POSTGRES_PORT ? process.env.POSTGRES_PORT : 5432)
+};
 
-let dbService = new DatabaseService(databasePath);
+let guacamoleService = new GuacamoleService(postgresConfig);
+let dbService = new DatabaseService(databasePath, guacamoleService);
+
 let authHelper = new AuthHelper(dbService);
 
 

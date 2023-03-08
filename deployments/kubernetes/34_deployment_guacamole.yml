@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guacamole
+  labels:
+    app: guacamole
+    stack: remoter
+spec:
+  selector:
+    matchLabels:
+      app: guacamole
+      stack: remoter
+  template:
+    metadata:
+      labels:
+        app: guacamole
+        stack: remoter
+    spec:
+      containers:
+        - imagePullPolicy: Always
+          name: container-0
+          image: guacamole/guacamole:1.5.0
+          envFrom:
+          - configMapRef:
+              name: remoter-config
+          ports:
+          - name: http
+            protocol: TCP
+            containerPort: 8080
+      restartPolicy: Always
+  replicas: 1

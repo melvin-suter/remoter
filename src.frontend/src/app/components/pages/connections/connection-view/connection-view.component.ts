@@ -43,7 +43,7 @@ export class ConnectionViewComponent implements OnInit {
 
           this.commandGuacamole.view = ConnectionType[this.connection.type] + "://";
           this.commandGuacamole.view += this.connection.credential?.username && this.connection.credential?.username.length > 0 ? encodeURI(this.connection.credential.username) : '';
-          this.commandGuacamole.view += this.connection.credential?.password && this.connection.credential?.password.length > 0 ? ":" + "*".repeat(this.connection.credential.password.length) : '';
+          this.commandGuacamole.view += this.connection.credential?.password && this.connection.credential?.password.length > 0 ? ":" + "*".repeat(8) : '';
           this.commandGuacamole.view += (this.connection.credential?.password && this.connection.credential?.password.length > 0) || (this.connection.credential?.username && this.connection.credential?.username.length > 0 ) ? "@" : '';
           this.commandGuacamole.view += this.connection.hostname;
           this.commandGuacamole.view += this.connection.port && this.connection.port.length > 0 ? ":" + this.connection.port : '';

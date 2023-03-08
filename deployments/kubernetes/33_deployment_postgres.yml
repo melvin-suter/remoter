@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app: postgres
+    stack: remoter
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+      stack: remoter
+  template:
+    metadata:
+      labels:
+        app: postgres
+        stack: remoter
+    spec:
+      volumes:
+      - name: pvc-postgres
+        persistentVolumeClaim:
+          claimName: pvc-postgres
+      - name: sqlCommand
+        configMap:
+          name: remoter-initial-db
+      initContainers:
+        - imagePullPolicy: Always
+          name: init-db
+          image: postgres:15.2
+          command: [ "bin/sh", "-c", "psql -a -f /init.sql" ]
+          envFrom:
+          - configMapRef:
+              name: remoter-config
+          volumeMounts:
+          - name: sqlCommand
+           mountPath: /init.sql
+           subPath: init.sql
+      containers:
+        - imagePullPolicy: Always
+          name: postgres
+          image: postgres:15.2
+          envFrom:
+          - configMapRef:
+              name: remoter-config
+          ports:
+          - name: db
+            protocol: TCP
+            containerPort: 5432
+          volumeMounts:
+          - mountPath: /data
+            name: pvc-postgres
+      restartPolicy: Always
+  replicas: 1

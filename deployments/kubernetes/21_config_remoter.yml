@@ -6,3 +6,10 @@ data:
   APP_KEY: "YOURAPPKEYHERE"
   DATABASE_PATH: "/data/data.db"
   API_URL: "/api"
+  POSTGRES_PASSWORD: guacamole
+  POSTGRES_USER: guacamole
+  POSTGRES_DATABASE: guacamole
+  POSTGRES_HOST: postgres-service
+  POSTGRES_PORT: "5432"
+  GUACD_HOSTNAME: guacd-service
+  GUACD_PORT: "4822"

@@ -4,12 +4,15 @@ import { UserModel } from "../models/user.model";
 import fs from 'fs';
 import { CredentialModel } from "../models/credential.model";
 import { ConnectionModel } from "../models/connection.model";
+import { GuacamoleService } from "./guacamole.service";
 
 export class DatabaseService {
 
     private db:Database;
+    private guacamoleService:GuacamoleService;
 
-    constructor(path:string){
+    constructor(path:string, guacamoleSerivce:GuacamoleService){
+      this.guacamoleService = guacamoleSerivce;
         this.db = new DatabaseConstructor(path);
         
         this.migrate();
@@ -217,6 +220,8 @@ export class DatabaseService {
       Reflect.deleteProperty(connection,"credential")
       connection.credentialID = connection.credentialID ?? null;
 
+      this.guacamoleService.setConnection(connection);
+
       return this.insert("connections", connection);
     }
 
@@ -227,11 +232,14 @@ export class DatabaseService {
       Reflect.deleteProperty(connection,"credential")
       connection.credentialID = connection.credentialID ?? null;
 
+      this.guacamoleService.setConnection(connection);
+
       return this.update("connections", [connection]);
     }
 
     deleteConnection(id:number){
       if(id >= 1){
+      this.guacamoleService.deleteConnection(id);
         this.delete("connections", id);
       }
     }

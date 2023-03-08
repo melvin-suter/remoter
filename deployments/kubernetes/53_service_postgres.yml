@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+    stack: remoter
+  ports:
+    - name: db
+      port: 5432
+      protocol: TCP
+      targetPort: db
+  sessionAffinity: None
+  type: ClusterIP
