@@ -14,7 +14,8 @@ import { BackendService } from 'src/app/services/backend.service';
 export class ConnectionEditComponent implements OnInit {
 
   credentials:CredentialModel[] = [];
-  connection:ConnectionModel = {name:'', hostname: '', type: ConnectionType.rdp};
+  connection:ConnectionModel = {name:'', hostname: '', type: ConnectionType.rdp, useGuacamole: 0};
+  useGuacamole:boolean = false;
   connectionTypes:any[] =[
     {"type": ConnectionType.rdp, "name": "RDP"},
     {"type": ConnectionType.ssh, "name": "SSH"}
@@ -42,13 +43,14 @@ export class ConnectionEditComponent implements OnInit {
       this.id == params["id"];
 
       if(params['id'] == "new" || params['id'] == undefined){
-        this.connection = {name:'',hostname: '', type: ConnectionType.rdp};
+        this.connection = {name:'',hostname: '', type: ConnectionType.rdp, useGuacamole: 0};
       } else {
         backend.getConnection(params["id"]).subscribe((con) => {
           this.connection = con;
-          this.selectedTags = this.connection.tags?.split(',');
+          this.selectedTags = this.connection.tags && this.connection.tags?.length > 0 ? this.connection.tags?.split(',') : [];
           this.id = con.id;
           this.title = con.name;
+          this.useGuacamole = this.connection.useGuacamole == 1;
         });
       }
     });
@@ -79,7 +81,9 @@ export class ConnectionEditComponent implements OnInit {
 
   save(){
     this.connection.credential = undefined;
-    this.connection.tags = this.selectedTags.join(",");
+    this.connection.tags = this.selectedTags.length > 0 ? this.selectedTags.join(",") : '';
+    
+    this.connection.useGuacamole = this.useGuacamole ? 1 : 0;
     if(this.id == "new"){
       this.backend.putConnection(this.connection).subscribe( (con:ConnectionModel) => {this.router.navigate(['/connections', con.id])});
     } else {

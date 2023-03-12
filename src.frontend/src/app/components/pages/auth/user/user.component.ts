@@ -30,7 +30,6 @@ export class UserComponent implements OnInit {
     this.backend.postUser(this.loginData).subscribe(() => {
       this.messageService.add({ detail: 'Saves successfully', severity: 'success' });
 
-      if(this.loginData.password.length > 0){
         this.messageService.add({ detail: 'Starting reencrypt, please dont reload this page', severity: 'info' });
 
         let oldKey = <string>localStorage.getItem('masterkey'); 
@@ -68,11 +67,6 @@ export class UserComponent implements OnInit {
             this.router.navigate(['/']);
           });
         });
-      } else {
-        this.router.navigate(['/']);
-
-      }
-
     });
   }
 

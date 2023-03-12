@@ -95,6 +95,12 @@ export class BackendService {
     );
   }
 
+  getConnectionGuacID(id:number){
+    return this.http.get<ConnectionModel>(environment.apiUrl + '/connections/' + id+ '/guacid').pipe(
+      map((a:any) => a.data),
+    );
+  }
+
   putConnection(con:ConnectionModel){
     return this.http.put<ConnectionModel>(environment.apiUrl + '/connections/', con).pipe(map((a:any) => a.data));
   }

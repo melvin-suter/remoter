@@ -21,6 +21,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 
 
@@ -71,7 +72,6 @@ import { UserComponent } from './components/pages/auth/user/user.component';
     HomeComponent,
     UserComponent,
 
-
   ],
   imports: [
 
@@ -90,6 +90,7 @@ import { UserComponent } from './components/pages/auth/user/user.component';
     AutoCompleteModule,
     ToastModule,
     TagModule,
+    ToggleButtonModule,
 
 
     BrowserModule,

@@ -51,7 +51,7 @@
                 <tr>
                     <td>Tags</td>
                     <td>
-                        <app-tag *ngFor="let tag of connection.tags?.split(',')" value="{{tag}}"></app-tag>
+                        <app-tag *ngFor="let tag of tags" value="{{tag}}"></app-tag>
                     </td>
                 </tr>
                 <tr>
@@ -105,9 +105,10 @@
 
 <div class="buttons">
     
+    <a href="/guacamole/#/client/{{ guacID }}" *ngIf="connection.useGuacamole" pButton >Connect (Guacamole)</a>
     <a *ngIf="connection.type == ConnectionType.rdp" pButton (click)="downloadWindowsRDPFile()" >Download (.rdp)</a>
     <a *ngIf="connection.type == ConnectionType.ssh && connection.credential?.privateKey" pButton (click)="downloadSSHKey()" >Download SSH Key</a>
     <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="overlaySSHLinux.toggle($event)" >Get Command (openssh - Linux)</a>
     <a *ngIf="connection.type == ConnectionType.ssh" pButton (click)="overlaySSHWindows.toggle($event)" >Get Command (openssh - Generic)</a>
-    <a pButton (click)="overlayGuacamole.toggle($event)" >Get URI (Guacamole)</a>
+    <a pButton (click)="overlayGuacamole.toggle($event)" >Get Ad-Hoc URI (Guacamole)</a>
 </div>

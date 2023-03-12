@@ -28,7 +28,7 @@ export class CredentialViewComponent implements OnInit {
         backend.getCredential(params["id"]).subscribe((cred) => {
           this.credential = cred;
           this.id = cred.id;
-          this.selectedTags = this.credential.tags?.split(',');
+          this.selectedTags = this.credential.tags && this.credential.tags?.length > 0 ? this.credential.tags?.split(',') : [];
           this.title = cred.name;
         });
       }

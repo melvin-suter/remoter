@@ -19,6 +19,8 @@
     <label>Tags</label>
     <p-autoComplete [(ngModel)]="selectedTags" [suggestions]="tags" (completeMethod)="search($event)" [multiple]="true"></p-autoComplete>
 
+    <label>Guacamole</label>
+    <p-toggleButton onIcon="pi pi-check" offIcon="pi pi-times" onLabel="Use Guacamole" offLabel="Don' use Guacamole" [(ngModel)]="useGuacamole"></p-toggleButton>
 
     <label>Description</label>
     <textarea pInputTextarea [(ngModel)]="connection.description" ></textarea>

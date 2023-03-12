@@ -65,6 +65,12 @@ export class DatabaseService {
       this.runMigration("2023-03-01_add_tags",()=>{
         this.db.exec("ALTER TABLE credentials ADD tags TEXT;");
       });
+
+      // migration add guacamole to connections
+      this.runMigration("2023-03-10_add_guacamole",()=>{
+        this.db.exec("ALTER TABLE connections ADD guacamoleID INTEGER;");
+        this.db.exec("ALTER TABLE connections ADD useGuacamole INTEGER;");
+      });
       
     }
     
@@ -220,7 +226,9 @@ export class DatabaseService {
       Reflect.deleteProperty(connection,"credential")
       connection.credentialID = connection.credentialID ?? null;
 
-      this.guacamoleService.setConnection(connection);
+      if(connection.useGuacamole){
+        this.guacamoleService.setConnection(connection);
+      }
 
       return this.insert("connections", connection);
     }
@@ -232,8 +240,14 @@ export class DatabaseService {
       Reflect.deleteProperty(connection,"credential")
       connection.credentialID = connection.credentialID ?? null;
 
-      this.guacamoleService.setConnection(connection);
-
+      let clonedConneciton = JSON.parse(JSON.stringify(connection));
+      if(connection.credentialID){
+        clonedConneciton.credential = this.getCredential(connection.credentialID);
+      }
+      if(connection.useGuacamole){
+        this.guacamoleService.setConnection(clonedConneciton);
+      }
+      
       return this.update("connections", [connection]);
     }
 

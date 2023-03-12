@@ -11,4 +11,6 @@ export interface ConnectionModel {
     credentialID?:number|null;
     credential?:CredentialModel;
     tags?:string;
+    guacamoleID?:number;
+    useGuacamole:number;
 }

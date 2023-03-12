@@ -173,6 +173,12 @@ app.get('/api/connections/:id',jsonParser, (request: Request, response: Response
     );
 });
 
+app.get('/api/connections/:id/guacid',jsonParser, async (request: Request, response: Response) => {
+    BasicHelper.returnData(request, response, 
+      {id: await guacamoleService.getID((<number><unknown>request.params.id))}
+    );
+});
+
 
 app.delete('/api/connections/:id',jsonParser, (request: Request, response: Response) => {
   dbService.deleteConnection((<number><unknown>request.params.id))

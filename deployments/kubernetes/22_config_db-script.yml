@@ -3,6 +3,11 @@ kind: ConfigMap
 metadata:
   name: remoter-initial-db
 data:
+  entry-init-db.sh : |
+    #!/bin/bash
+    set -e
+    psql $POSTGRES_DB $POSTGRES_USER -a -f /init.sql
+
   init.sql: |
     --
     -- Licensed to the Apache Software Foundation (ASF) under one

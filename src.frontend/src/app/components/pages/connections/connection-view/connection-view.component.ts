@@ -19,8 +19,10 @@ import { environment } from 'src/environments/environment';
 })
 export class ConnectionViewComponent implements OnInit {
 
-  connection:ConnectionModel = {name:'', hostname: '', type: ConnectionType.rdp};
+  connection:ConnectionModel = {name:'', hostname: '', type: ConnectionType.rdp, useGuacamole: 0};
   ConnectionType = ConnectionType;
+  tags:string[] = [];
+  guacID:string = "";
 
   commandSSHLinux = {view:"",copy:""};
   commandSSHWindows = {view:"",copy:""};
@@ -35,10 +37,17 @@ export class ConnectionViewComponent implements OnInit {
     
     this.route.params.subscribe( (params) => {
       if(params['id'] == "new"){
-        this.connection = {name:'',hostname: '', type: ConnectionType.rdp};
+        this.connection = {name:'',hostname: '', type: ConnectionType.rdp, useGuacamole: 0};
       } else {
         backend.getConnection(params["id"]).subscribe((cred) => {
           this.connection = cred;
+          this.tags = this.connection.tags && this.connection.tags?.length > 0 ? this.connection.tags?.split(',') : [];
+
+          if(this.connection.useGuacamole){
+            this.backend.getConnectionGuacID(this.connection.id!).subscribe( (data:any) => {
+              this.guacID = data.id;
+            });
+          }
 
 
           this.commandGuacamole.view = ConnectionType[this.connection.type] + "://";

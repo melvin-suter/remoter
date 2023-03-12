@@ -20,22 +20,11 @@ spec:
       - name: pvc-postgres
         persistentVolumeClaim:
           claimName: pvc-postgres
-      - name: sqlCommand
+      - name: sql-init-db
         configMap:
           name: remoter-initial-db
-      initContainers:
-        - imagePullPolicy: Always
-          name: init-db
-          image: postgres:15.2
-          command: [ "bin/sh", "-c", "psql -a -f /init.sql" ]
-          envFrom:
-          - configMapRef:
-              name: remoter-config
-          volumeMounts:
-          - name: sqlCommand
-           mountPath: /init.sql
-           subPath: init.sql
       containers:
+     
         - imagePullPolicy: Always
           name: postgres
           image: postgres:15.2
@@ -47,6 +36,14 @@ spec:
             protocol: TCP
             containerPort: 5432
           volumeMounts:
+          - name: sql-init-db
+            mountPath: /init.sql
+            subPath: init.sql
+          - name: sql-init-db
+            mountPath: /docker-entrypoint-initdb.d/entry-init-db.sh
+            subPath: entry-init-db.sh
+
+            
           - mountPath: /data
             name: pvc-postgres
       restartPolicy: Always
