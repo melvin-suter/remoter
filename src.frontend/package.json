@@ -1,6 +1,6 @@
 {
   "name": "remoter.frontend",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,6 +24,7 @@
     "color": "^4.2.3",
     "crypto-js": "^4.1.1",
     "file-saver": "^2.0.5",
+    "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
     "primeng": "^14.2.3",
     "rxjs": "~7.5.0",

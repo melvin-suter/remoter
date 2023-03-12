@@ -22,6 +22,7 @@ import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import {CardModule} from 'primeng/card';
 
 
 
@@ -91,6 +92,7 @@ import { UserComponent } from './components/pages/auth/user/user.component';
     ToastModule,
     TagModule,
     ToggleButtonModule,
+    CardModule,
 
 
     BrowserModule,

@@ -1,1 +1,52 @@
 <h1>Home</h1>
+
+
+<div class="grid">
+    <div class="col-12 sm:col-6 md:col-6 lg:col-4">
+        <p-card header="Connections">
+            <div class="big-number">{{ connections.length }}</div>
+        </p-card>
+    </div>
+    <div class="col-12 sm:col-6 md:col-6 lg:col-4">
+        <p-card header="Credentials">
+            <div class="big-number">{{ credentials.length }}</div>
+        </p-card>
+    </div>
+    <div class="col-12 sm:col-6 md:col-6 lg:col-4">
+        <p-card header="Tags">
+            <div class="big-number">{{ totalTags }}</div>
+        </p-card>
+    </div>
+
+
+    <div class="col-12 lg:col-6">
+        <p-card header="Top Connection Tags">
+            
+            <p-table [value]="topConnectionTags" >
+                <ng-template pTemplate="header">
+                </ng-template>
+                <ng-template pTemplate="body" let-tag>
+                    <tr>
+                        <td><app-tag value="{{tag}}"></app-tag></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </p-card>
+    </div>
+    <div class="col-12 lg:col-6">
+        <p-card header="Top Credential Tags">
+            
+            <p-table [value]="topCredentialTags" >
+                <ng-template pTemplate="header">
+                </ng-template>
+                <ng-template pTemplate="body" let-tag>
+                    <tr>
+                        <td><app-tag value="{{tag}}"></app-tag></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+        </p-card>
+    </div>
+</div>
